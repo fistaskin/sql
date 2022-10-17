@@ -1,17 +1,29 @@
-f = list(open('hosts.txt'))
-res = []
+i = 0
 
-for x in f:
- resi = list(open('results3/' + x[:-1] + '.txt'))
- for y in resi:
-  if y[:-1][:4] == '3306':
-   res.append(x)
-  else:
+while(1):
+ f = list(open(str(i) + '.txt'))
+ res = []
+
+ for x in f:
+  targets = x.split('/')
+  target = targets[2]
+  try:
+   resi = list(open('results' + str(i) + '/' + target + '.txt'))
+   for y in resi:
+    if y[:-2][:4] == '3306':
+     res.append(target)
+    else:
+     continue
+  except:
    continue
+ r = open('results' + str(i) + '/mysql.txt', 'w')
 
-r = open('mysql.txt', 'w')
+ for x in res:
+  r.write('http://')
+  r.write(x)
+  r.write('\n')
 
-for x in res:
- r.write('http://' + x)
-
-r.close()
+ r.close()
+ i = i + 10
+ if i == 510:
+  break
